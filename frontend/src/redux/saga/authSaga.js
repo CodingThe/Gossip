@@ -1,7 +1,7 @@
-import { call, takeLatest } from "redux-saga/effects";
+import { call, put, takeLatest } from "redux-saga/effects";
 import {signupRequest,signupSuccess,signupFail} from "../slice/auth.slice";
 import { USER_REGISTER } from "../../routes/unifiedRoutes";
-import {apiCalling} from "../api"
+import apiCalling from "../api"
 
 function* signupUser(action){
     try{

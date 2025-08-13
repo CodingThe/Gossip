@@ -3,6 +3,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const logger = require('./config/logger');
+const authRoutes = require('./routes/authRoutes')
 const errorHandler = require('./middlewares/unifiedErrorHandler');
 
 dotenv.config();
@@ -18,7 +19,7 @@ connectDB()
   .catch((err) => logger.error('MongoDB connection error: ', err));
 
 // Routes
-app.use('/api/auth', require('./routes/authRoutes'));
+app.use('/auth', authRoutes);
 app.use(errorHandler);
 
 app.get('/', (req, res) => {

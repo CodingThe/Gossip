@@ -1,1 +1,1 @@
-export const USER_REGISTER = "http://localhost:4000/user/register"
+export const USER_REGISTER = "http://localhost:5000/auth/register"

@@ -6,8 +6,7 @@ const { AUTH_MESSAGES } = require('../constants/authConstants');
 
 exports.registerUser = async (req, res, next) => {
   try {
-    const { name, email, password, role } = req.body;
-
+    const { name, email, password } = req.body.form;
     if (!name || !email || !password) {
       throw new ApiError(400, AUTH_MESSAGES.ALL_FIELDS_REQUIRED);
     }
@@ -23,14 +22,12 @@ exports.registerUser = async (req, res, next) => {
       name,
       email,
       password: hashedPassword,
-      role: role || 'user',
     });
 
     return unifiedResponse(res, 201, {
       id: newUser._id,
       name: newUser.name,
       email: newUser.email,
-      role: newUser.role,
     }, AUTH_MESSAGES.REGISTER_SUCCESS);
   } catch (error) {
     next(error);
