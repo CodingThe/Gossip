@@ -1,0 +1,1 @@
+export const USER_REGISTER = "http://localhost:4000/user/register"
