@@ -35,6 +35,24 @@ const authSlice = createSlice({
       state.error = null;
       state.accesstoken = null;
     },
+    signinRequest(state, action) {
+      state.loading = true;
+      state.error = null;
+      state.messages = null;
+      state.accesstoken = null;
+    },
+    signinSuccess(state, action) {
+      state.loading = false;
+      state.messages = null;
+      state.error = null;
+      state.accesstoken = action.payload;
+    },
+    signinFail(state, action) {
+      state.loading = false;
+      state.messages = null;
+      state.error = action.payload;
+      state.accesstoken = null;
+    },
   },
 });
 
@@ -43,6 +61,9 @@ export const {
   signupSuccess,
   signupFail,
   resetTokenMessages,
+  signinRequest,
+  signinSuccess,
+  signinFail,
 } = authSlice.actions;
 
 export const authReducer = authSlice.reducer;

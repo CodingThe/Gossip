@@ -1,35 +1,24 @@
-const bcrypt = require('bcryptjs');
-const User = require('../models/User');
-const ApiError = require('../utils/unifiedError');
-const unifiedResponse = require('../utils/unifiedResponse');
-const { AUTH_MESSAGES } = require('../constants/authConstants');
+import authService from "../service/authService.js";
+import unifiedResponse from "../utils/unifiedResponse.js";
+import { AUTH_MESSAGES } from "../constants/authConstants.js";
 
-exports.registerUser = async (req, res, next) => {
+export const registerUser = async (req, res, next) => {
   try {
     const { name, email, password } = req.body.form;
-    if (!name || !email || !password) {
-      throw new ApiError(400, AUTH_MESSAGES.ALL_FIELDS_REQUIRED);
-    }
-
-    const userExists = await User.findOne({ email });
-    if (userExists) {
-      throw new ApiError(409, AUTH_MESSAGES.EMAIL_IN_USE);
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const newUser = await User.create({
-      name,
-      email,
-      password: hashedPassword,
-    });
-
-    return unifiedResponse(res, 201, {
-      id: newUser._id,
-      name: newUser.name,
-      email: newUser.email,
-    }, AUTH_MESSAGES.REGISTER_SUCCESS);
+    const userData = await authService.registerUser({ name, email, password });
+    return unifiedResponse(res, 201, userData, AUTH_MESSAGES.REGISTER_SUCCESS);
   } catch (error) {
     next(error);
   }
 };
+
+export const loginUser = async (req, res, next) => {
+  try {
+    console.log("inside controller");
+    const { email, password } = req.body.form;
+    const userData = await authService.loginUser({email, password});
+    return unifiedResponse(res,201,userData, AUTH_MESSAGES.LOGIN_SUCCESS);
+  } catch(error){
+    next(error);
+  }
+}

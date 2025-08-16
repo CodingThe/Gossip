@@ -2,12 +2,12 @@ import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import {
   resetTokenMessages,
-  signupRequest,
+  signinRequest,
 } from "../../redux/slice/auth.slice";
+
 import { Link } from "react-router-dom";
-export default function SignUp() {
+export default function Login() {
   const [form, setForm] = useState({
-    name: "",
     email: "",
     password: "",
   });
@@ -19,25 +19,16 @@ export default function SignUp() {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-
+  
   const handleSubmit = async (e) => {
-    dispatch(signupRequest({ form }));
+    dispatch(signinRequest({ form }));
   };
 
   return (
     <div style={styles.container}>
       <form onSubmit={handleSubmit} style={styles.form}>
         <h1 style={styles.mainHeading}>Gossip 💬</h1>
-        <h2 style={styles.heading}>User Registration</h2>
-
-        <input
-          type="text"
-          name="name"
-          placeholder="Enter Name"
-          value={form.name}
-          onChange={handleChange}
-          style={styles.input}
-        />
+        <h2 style={styles.heading}>User Login</h2>
 
         <input
           type="email"
@@ -58,7 +49,7 @@ export default function SignUp() {
         />
 
         <div style={styles.submitSection}>
-          <Link to="/login" style={styles.loginText}>Login →</Link>
+          <Link to= "/" style={styles.loginText}>Register →</Link>
           <button type="submit" style={styles.button}>
             Submit
           </button>
