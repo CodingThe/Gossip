@@ -5,4 +5,4 @@ const unifiedRespose = (res, statusCode, data, message = "Success") => {
     data,
   });
 };
-module.exports = unifiedRespose;
+export default unifiedRespose;

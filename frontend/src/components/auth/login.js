@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import {
   resetTokenMessages,
   signinRequest,
 } from "../../redux/slice/auth.slice";
-
+import { useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom";
 export default function Login() {
   const [form, setForm] = useState({
@@ -12,8 +12,8 @@ export default function Login() {
     password: "",
   });
   const dispatch = useAppDispatch();
-  const { message, error } = useAppSelector((state) => state.auth);
-
+  const { messages, error } = useAppSelector((state) => state.auth);
+  const navigate = useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
@@ -21,8 +21,21 @@ export default function Login() {
 
   
   const handleSubmit = async (e) => {
+    e.preventDefault()
     dispatch(signinRequest({ form }));
   };
+
+  useEffect(() => {
+  if (messages) {
+    console.log("inside success useEffect");
+    navigate("/home");
+  }
+  if (error) {
+    console.log("error message", error);
+    alert(error);
+  }
+}, [messages, error, navigate, dispatch]);
+
 
   return (
     <div style={styles.container}>

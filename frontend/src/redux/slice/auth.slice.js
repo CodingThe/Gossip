@@ -43,9 +43,9 @@ const authSlice = createSlice({
     },
     signinSuccess(state, action) {
       state.loading = false;
-      state.messages = null;
+      state.messages = action.payload.message;
       state.error = null;
-      state.accesstoken = action.payload;
+      state.accesstoken = action.payload.data.token;
     },
     signinFail(state, action) {
       state.loading = false;

@@ -1,8 +1,8 @@
 import bcrypt from "bcryptjs";
 import User from "../models/User.js";
-import ApiError from "../utils/unifiedError.js";
 import { AUTH_MESSAGES } from "../constants/authConstants.js";
 import { generateToken } from "../utils/jwt.js";
+import ApiError from "../utils/ApiError.js";
 
 export const registerUser = async ({ name, email, password }) => {
   if (!name || !email || !password) {
