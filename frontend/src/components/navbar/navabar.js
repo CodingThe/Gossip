@@ -1,35 +1,34 @@
 import { Link } from "react-router-dom";
-import { useAppSelector } from "../../redux/hooks";
-import Navbar from "../navbar/navabar";
-export default function HomePage() {
-  const { user } = useAppSelector((state) => state.auth);
-
+export default function Navbar() {
   return (
-    <div style={styles.container}>
-      <Navbar/>
-      <div style={styles.body}>
-        <h2 style={styles.welcome}>
-          Welcome {localStorage.getItem("username") ?? "Guest"} 👋
-        </h2>
-        <img src="/image.png"/>
-        <p style={styles.text}>
-          Explore your gossips, share stories, and connect with friends!
-        </p>
-        <Link to="/gossip" style={styles.dashboardBtn}>
-          Go to Gossip →
-        </Link>
-      </div>
-    </div>
+    <>
+      <nav style={styles.navbar}>
+        <h1 style={styles.logo}>Gossip 💬</h1>
+
+        <div style={styles.navRight}>
+          <Link to="/home" style={styles.link}>
+            Home
+          </Link>
+          <Link to="/gossip" style={styles.link}>
+            Gossips
+          </Link>
+          <Link to="/mygossip" style={styles.link}>
+            My Gossip
+          </Link>
+          <Link to="/about" style={styles.link}>
+            About
+          </Link>
+
+          <div style={styles.avatar}>
+            {localStorage.getItem("username")?.charAt(0).toUpperCase() ?? "U"}
+          </div>
+        </div>
+      </nav>
+    </>
   );
 }
 
 const styles = {
-  container: {
-    height: "100vh",
-    backgroundColor: "#f2f6fc",
-    display: "flex",
-    flexDirection: "column",
-  },
   navbar: {
     backgroundColor: "#fff",
     boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
@@ -37,7 +36,11 @@ const styles = {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    height: "9%"
+    height: "9%",
+    position: "sticky",
+    top: "0px",
+    zIndex: "99",
+    overflow: "hidden"
   },
   logo: {
     fontSize: "24px",

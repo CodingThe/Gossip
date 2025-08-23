@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import errorHandler from "./middlewares/unifiedErrorHandler.js";
-
+import gossipRoutes from "./routes/gossipRoutes.js"
 dotenv.config();
 const app = express();
 
@@ -21,6 +21,7 @@ connectDB();
 
 // API Routes
 app.use("/auth", authRoutes);
+app.use("/gossip", gossipRoutes);
 
 
 // Error handler
