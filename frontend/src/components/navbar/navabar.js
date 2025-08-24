@@ -1,30 +1,49 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+
 export default function Navbar() {
   return (
-    <>
-      <nav style={styles.navbar}>
-        <h1 style={styles.logo}>Gossip 💬</h1>
+    <nav style={styles.navbar}>
+      <h1 style={styles.logo}>Gossip 💬</h1>
 
-        <div style={styles.navRight}>
-          <Link to="/home" style={styles.link}>
-            Home
-          </Link>
-          <Link to="/gossip" style={styles.link}>
-            Gossips
-          </Link>
-          <Link to="/mygossip" style={styles.link}>
-            My Gossip
-          </Link>
-          <Link to="/about" style={styles.link}>
-            About
-          </Link>
+      <div style={styles.navRight}>
+        <NavLink
+          to="/home"
+          style={({ isActive }) =>
+            isActive ? { ...styles.link, ...styles.activeLink } : styles.link
+          }
+        >
+          Home
+        </NavLink>
+        <NavLink
+          to="/gossip"
+          style={({ isActive }) =>
+            isActive ? { ...styles.link, ...styles.activeLink } : styles.link
+          }
+        >
+          Gossips
+        </NavLink>
+        <NavLink
+          to="/mygossip"
+          style={({ isActive }) =>
+            isActive ? { ...styles.link, ...styles.activeLink } : styles.link
+          }
+        >
+          My Gossip
+        </NavLink>
+        <NavLink
+          to="/about"
+          style={({ isActive }) =>
+            isActive ? { ...styles.link, ...styles.activeLink } : styles.link
+          }
+        >
+          About
+        </NavLink>
 
-          <div style={styles.avatar}>
-            {localStorage.getItem("username")?.charAt(0).toUpperCase() ?? "U"}
-          </div>
+        <div style={styles.avatar}>
+          {localStorage.getItem("username")?.charAt(0).toUpperCase() ?? "U"}
         </div>
-      </nav>
-    </>
+      </div>
+    </nav>
   );
 }
 
@@ -61,9 +80,9 @@ const styles = {
     borderRadius: "8px",
     transition: "all 0.2s ease-in-out",
   },
-  linkHover: {
-    backgroundColor: "rgba(255,255,255,0.1)",
-    transform: "translateY(-1px)",
+  activeLink: {
+    backgroundColor: "rgba(255,255,255,0.2)",
+    fontWeight: "700",
   },
   avatar: {
     backgroundColor: "rgba(255,255,255,0.2)",
@@ -80,9 +99,4 @@ const styles = {
     border: "2px solid rgba(255,255,255,0.3)",
     transition: "all 0.2s ease-in-out",
   },
-  avatarHover: {
-    backgroundColor: "rgba(255,255,255,0.3)",
-    transform: "scale(1.05)",
-  },
 };
-

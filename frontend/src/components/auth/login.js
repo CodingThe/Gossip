@@ -2,16 +2,18 @@ import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import {
   resetTokenMessages,
-  signinRequest,
-} from "../../redux/slice/auth.slice";
+  signinRequest, } from "../../redux/slice/auth.slice";
 import { useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import { ERROR_MESSAGES } from "../constants/authConstants"
 export default function Login() {
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
   const dispatch = useAppDispatch();
+
   const { messages, error } = useAppSelector((state) => state.auth);
   const navigate = useNavigate();
   const handleChange = (e) => {
@@ -19,22 +21,42 @@ export default function Login() {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  
+  const validateForm = (form) => {
+    if (!form.email.trim()) {
+      toast.error(ERROR_MESSAGES.EMAIL_REQUIRED);
+      return false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+      toast.error(ERROR_MESSAGES.EMAIL_INVALID);
+      return false;
+    }
+
+    if (!form.password.trim()) {
+      toast.error(ERROR_MESSAGES.PASSWORD_REQUIRED);
+      return false;
+    }
+
+    return true;
+  };
+
+
   const handleSubmit = async (e) => {
     e.preventDefault()
+    if(!validateForm(form)) return;
     dispatch(signinRequest({ form }));
   };
 
   useEffect(() => {
   if (messages) {
     console.log("inside success useEffect");
+    toast.success(messages);
     navigate("/home");
   }
   if (error) {
     console.log("error message", error);
-    alert(error);
+    toast.error(error);
   }
-}, [messages, error, navigate, dispatch]);
+  dispatch(resetTokenMessages());
+}, [messages, error]);
 
 
   return (

@@ -18,6 +18,7 @@ const authSlice = createSlice({
       state.accesstoken = null;
     },
     signupSuccess(state, action) {
+      console.log("the singup success",action.payload);
       state.loading = false;
       state.messages = action.payload;
       state.error = null;
@@ -33,7 +34,7 @@ const authSlice = createSlice({
       state.loading = false;
       state.messages = null;
       state.error = null;
-      state.accesstoken = null;
+      // state.accesstoken = null;
     },
     signinRequest(state, action) {
       state.loading = true;

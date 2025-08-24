@@ -63,6 +63,7 @@ const GradientBackground = styled(Box)({
   background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
   minHeight: '100vh',
   padding: '20px',
+  paddingTop: '0px'
 });
 
 export default function Gossip() {
@@ -132,23 +133,19 @@ export default function Gossip() {
 
   return (
     <GradientBackground>
-      <Box sx={{ maxWidth: '900px', margin: 'auto' }}>
+      <Box sx={{ maxWidth: '900px', margin: 'auto'}}>
         {/* Filter Section */}
-        <FilterContainer elevation={3}>
-          <Typography variant="h4" sx={{ mb: 3, fontWeight: 'bold', textAlign: 'center' }}>
-            🗣️ Gossip Hub
-          </Typography>
+        <div style={{ zIndex: 99, position: 'sticky', top: "70px", paddingTop: "9px", background:'#f5f7fa',borderBottomLeftRadius: "15px",borderBottomRightRadius: "15px",}}>
+      <FilterContainer elevation={3} sx={{MarginTop:'90px', p: 1,}}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={4}>
               <TextField
                 fullWidth
                 label="Search Gossips"
                 variant="filled"
+                size="small"
                 value={nameFilter}
                 onChange={(e) => setNameFilter(e.target.value)}
-                InputProps={{
-                  startAdornment: <SearchIcon sx={{ mr: 1, color: 'white' }} />,
-                }}
                 sx={{
                   '& .MuiFilledInput-root': {
                     backgroundColor: 'rgba(255,255,255,0.1)',
@@ -164,11 +161,9 @@ export default function Gossip() {
                 fullWidth
                 label="Search Users"
                 variant="filled"
+                size="small"
                 value={userFilter}
                 onChange={(e) => setUserFilter(e.target.value)}
-                InputProps={{
-                  startAdornment: <PersonIcon sx={{ mr: 1, color: 'white' }} />,
-                }}
                 sx={{
                   '& .MuiFilledInput-root': {
                     backgroundColor: 'rgba(255,255,255,0.1)',
@@ -180,7 +175,7 @@ export default function Gossip() {
               />
             </Grid>
             <Grid item xs={12} md={4}>
-              <FormControl fullWidth variant="filled">
+              <FormControl fullWidth variant="filled" size="small">
                 <InputLabel sx={{ color: 'white' }}>Sort By</InputLabel>
                 <Select
                   value={sortOrder}
@@ -191,7 +186,6 @@ export default function Gossip() {
                     '&:hover': { backgroundColor: 'rgba(255,255,255,0.15)' },
                     '& .MuiSelect-icon': { color: 'white' },
                   }}
-                  startAdornment={<TrendingUpIcon sx={{ mr: 1, color: 'white' }} />}
                 >
                   <MenuItem value="latest">Latest First</MenuItem>
                   <MenuItem value="oldest">Oldest First</MenuItem>
@@ -202,7 +196,7 @@ export default function Gossip() {
           </Grid>
           
           {/* Active Filters Display */}
-          <Box sx={{ mt: 2, display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+          <Box sx={{  display: 'flex', gap: 1, flexWrap: 'wrap' }}>
             {nameFilter && (
               <Chip
                 label={`Content: ${nameFilter}`}
@@ -220,7 +214,9 @@ export default function Gossip() {
           </Box>
         </FilterContainer>
 
-        {/* Results Summary */}
+
+        </div>
+                {/* Results Summary */}
         <Box sx={{ mb: 2 }}>
           <Typography variant="h6" color="textSecondary" textAlign="center">
             Showing {filteredAndSortedGossips.length} gossip(s)

@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { useNavigate } from 'react-router-dom';
+import { toast } from "react-toastify";
 import {
   resetTokenMessages,
-  signupRequest,
-} from "../../redux/slice/auth.slice";
+  signupRequest} from "../../redux/slice/auth.slice";
+import { ERROR_MESSAGES } from "../constants/authConstants"
 import { Link } from "react-router-dom";
+
 export default function SignUp() {
   const [form, setForm] = useState({
     name: "",
@@ -12,18 +15,51 @@ export default function SignUp() {
     password: "",
   });
   const dispatch = useAppDispatch();
-  const { message, error } = useAppSelector((state) => state.auth);
-
+  const { messages, error } = useAppSelector((state) => state.auth);
+  const navigate = useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
+const validateForm = (form) => {
+    if (!form.name.trim()) {
+      toast.error(ERROR_MESSAGES.NAME_REQUIRED);
+      return false;
+    }
+    if (!form.email.trim()) {
+      toast.error(ERROR_MESSAGES.EMAIL_REQUIRED);
+      return false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+      toast.error(ERROR_MESSAGES.EMAIL_INVALID);
+      return false;
+    }
+
+    if (!form.password.trim()) {
+      toast.error(ERROR_MESSAGES.PASSWORD_REQUIRED);
+      return false;
+    }
+
+    return true;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    if(!validateForm(form)) return;
     dispatch(signupRequest({ form }));
   };
+
+  useEffect(()=>{
+    if(messages) {
+      console.log("gossip from effect", messages);
+      toast.success(messages);
+      navigate("/login");
+    }
+    if(error) {
+      toast.error(error);
+    }
+    dispatch(resetTokenMessages());
+  },[messages,error]);
 
   return (
     <div style={styles.container}>

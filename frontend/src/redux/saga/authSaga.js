@@ -7,7 +7,8 @@ function* signupUser(action){
     try{
         const {payload} = action;
         const response=yield call(apiCalling,"POST",USER_REGISTER,payload);
-        yield put(signupSuccess(response.responseData.message));
+        console.log("res from saga", response);
+        yield put(signupSuccess(response.message));
     }catch(error){
         const errorMessage = error.message || "Something went wrong";
         yield put(signupFail(errorMessage));
